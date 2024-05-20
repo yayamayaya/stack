@@ -1,67 +1,68 @@
-#pragma once
 #include <stdio.h>
+#include <assert.h>
+#include <stdlib.h>
 
 #ifndef STACK_HEADER
 #define STACK_HEADER
 
 #define CANARYPRINT(arg1, arg2) fprintf(fileName, ">> Canaries are %llX & %llX\n", arg1, arg2)
-#define HASHPRINT(arg1) fprintf(fileName, ">> Hash is: %llX\n", arg1)
+#define HASHPRINT(arg1)         fprintf(fileName, ">> Hash is: %llX\n", arg1)
 
+typedef long long int class_canary_t;
 typedef long long int canary_t;    
 typedef long long int hash_t;
 
+//#define SECURE
 
 template <typename T>
 class Stack 
 {
 public:
-
-    int stackCtor(const int stackCapacity, const char* logFileName);
-    int stackDtor();
-    int stackPush(const T num);
-    int stackPop(T *num);
-    int stackPrint(int option);
-    int stackVerificator();
+    int Ctor(const int stack_capacity, const char* logfile_name);
+    int Dtor();
+    int push(const T num);
+    int pop(T *num);
+    int print(int option);
+    int verificator();
     int stk_realloc(const int num);
-    T getDataOnPos(const int pos);
-    T *getDataPtr();
-    int getStackSize();
+    T   get_data_on_pos(const int pos);
+    T   *get_data_ptr();
+    int get_stack_size();
 
 private:
-    static constexpr canary_t kLeftCanary = 0xABEBADED;
-    static constexpr canary_t kRightCanary = 0xDEDABEBA;
+    static constexpr class_canary_t c_left_canary   = 0xABEBADED;
+    static constexpr class_canary_t c_right_canary  = 0xDEDABEBA;
 
-    static constexpr canary_t Lcanary = 0xDEDDEAD;
-    static constexpr canary_t Rcanary = 0xFFABEBA;
+    static constexpr canary_t lcanary = 0xDEDDEAD;
+    static constexpr canary_t rcanary = 0xFFABEBA;
 
+    static constexpr unsigned char poison = 0xBD;
 
-    static const T poison;
+    hash_t hash_func();
+    int poison_func(const int pos);
+    int poison_check();
+    int canary_check();
+    int hash_check();
 
-    hash_t hashFunc();
-    int poisonFunc();
-    int poisonCheck();
-    int canaryCheck();
-    int hashCheck();
+    canary_t *get_left_canary_ptr();
+    hash_t *get_hash_number_ptr();
+    canary_t *get_right_canary_ptr();
 
-    canary_t *getLeftCanaryPtr();
-    hash_t *getHashNumberPtr();
-    canary_t *getRightCanaryPtr();
-
+    void data_print(FILE *filename, T *data);
+    void bin_print(FILE *filename, void *data_ptr, const int type_size);
     
-#ifdef DEBUG
-    FILE *logFile;
-#endif
+    FILE *logfile;
 
-    canary_t classLCanary = kLeftCanary;
+    class_canary_t class_lcanary = c_left_canary;
 
     T* data;
     int size;
     int capacity;
 
-    canary_t classRCanary = kRightCanary;
+    class_canary_t class_rcanary = c_right_canary;
 };
 
-enum debugging
+enum DEBUGGING
 {
     STK_CTED = 0,
     CAPACITY_ZERO = 1,
@@ -74,7 +75,7 @@ enum debugging
     STK_KILL = -1
 };
 
-enum errors
+enum STACK_ERRS
 {
     STK_MEM_ALC_ERR = 515,
     STK_MEM_RLC_ERR = 516,
@@ -86,7 +87,7 @@ enum errors
 
 };
 
-enum stk_realloc
+enum STK_REALLOC
 {
     DOWN = 0, 
     UP = 1
@@ -98,5 +99,22 @@ enum STK_PRINT_OPTIONS
     IN_CONSOLE = 1
 };
 
-#include "stack.hpp"
+#ifdef SECURE
+
+#define STACK_SIZE                      capacity * sizeof(T) + 2 * sizeof(canary_t) + sizeof(hash_t)
+#define STACK_DATA_POSITION             sizeof(canary_t) + sizeof(hash_t)
+#define _HASH_REFRESH()                 *(get_hash_number_ptr()) = hash_func()
+
+#else
+
+#define STACK_SIZE                      capacity * sizeof(T)
+#define STACK_DATA_POSITION             0
+#define _HASH_REFRESH()                 do {} while (0)
+
+#endif
+
+#include "stack_log.h"
+
+#include "stack_itern_func.hpp"
+#include "stack_ext_func.hpp"
 #endif
