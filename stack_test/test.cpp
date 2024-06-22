@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
     Stack<double> stk2 = {};
     stk2.Ctor(2, "logs/stack_double.log");
     stk2.push(155);
-    stk.push(14.312512);
+    stk2.push(14.312512);
     stk2.push(-355.136135);
     stk2.print(IN_CONSOLE);
     stk2.pop(NULL);

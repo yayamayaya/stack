@@ -1,10 +1,13 @@
 > constructing stack
 > allocating memory for the stack:
 > 0b 1011 1101   1011 1101   1011 1101   1011 1101   1011 1101   1011 1101   1011 1101   1011 1101   
-> stack 0x4de95b0 was constructed with the capacity: 2
-> value was pushed on pos: 1 with pointer <0x4de95b0>
+> stack 0x4de95c0 was constructed with the capacity: 2
+> value was pushed on pos: 1 with pointer <0x4de95d0>
 > data : 155.00
-> value was pushed on pos: 2 with pointer <0x4de95b8>
+> value was pushed on pos: 2 with pointer <0x4de95d8>
+> data : 14.31
+> stack capacity doubled
+> value was pushed on pos: 3 with pointer <0x4de9650>
 > data : -355.14
 > data was popped from the stack
 > stack was destructed
