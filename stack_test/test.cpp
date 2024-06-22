@@ -1,4 +1,6 @@
-#include "stack.h"
+#include "../src/stack.h"
+
+//#define DEBUG
 
 struct test
 {

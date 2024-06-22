@@ -26,7 +26,7 @@
     logfile = NULL
 
 #define _DUMP_TO_LOGFILE()                                                                          \
-    if (!option)                                                                                    \
+    if (!option && logfile)                                                                         \
         fileName = logfile
 
 #else

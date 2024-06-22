@@ -37,7 +37,8 @@ int Stack<T>::Ctor(const int stack_capacity, const char* logfile_name)
 #endif
 
     poison_func(0);   
-    bin_print(logfile, get_data_ptr(), sizeof(T));
+    if (logfile)
+        bin_print(logfile, get_data_ptr(), sizeof(T));
 
     _STACK_LOG("> stack %p was constructed with the capacity: %d\n", data, capacity); 
     return verificator();

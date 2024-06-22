@@ -39,7 +39,7 @@ template <typename T>
 int Stack<T>::poison_func(const int pos)
 {   
     char *arr_ptr = (char *)get_data_ptr();
-    for (int i = pos * sizeof(T); i < capacity * sizeof(T); i++)
+    for (int i = pos * sizeof(T); (long unsigned int)i < capacity * sizeof(T); i++)
         arr_ptr[i] = poison;
 
     return 0;
@@ -130,31 +130,36 @@ void Stack<T>::bin_print(FILE *filename, void *data_ptr, const int type_size)
 template<typename T>
 void Stack<T>::data_print(FILE *filename, T *data)
 {
-    bin_print(filename, data, sizeof(T));
+    if (filename)
+        bin_print(filename, data, sizeof(T));
 }
 
 template<>
 void Stack<int>::data_print(FILE *filename, int *data)
 {
-    fprintf(filename, "%d\n", *data);
+    if (filename)
+        fprintf(filename, "%d\n", *data);
 }
 
 template<>
 void Stack<char>::data_print(FILE *filename, char * data)
 {
-    fprintf(filename, "%d\n", *data);
+    if (filename)
+        fprintf(filename, "%d\n", *data);
 }
 
 template<>
 void Stack<double>::data_print(FILE *filename, double *data)
 {
-    fprintf(filename, "%.2f\n", *data);
+    if (filename)
+        fprintf(filename, "%.2f\n", *data);
 }
 
 template<>
 void Stack<long long int>::data_print(FILE *filename, long long int *data)
 {
-    fprintf(filename, "%lld\n", *data);
+    if (filename)
+        fprintf(filename, "%lld\n", *data);
 }
 
 #endif
