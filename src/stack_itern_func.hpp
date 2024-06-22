@@ -26,7 +26,7 @@ hash_t Stack<T>::hash_func()
 {
     hash_t hash_holder = 0;
     char *data_ptr = (char *)get_data_ptr();
-    for (int i = 0; i < size * sizeof(T); i++)
+    for (unsigned int i = 0; i < size * sizeof(T); i++)
         hash_holder += data_ptr[i];
 
     hash_holder += capacity;
@@ -39,7 +39,7 @@ template <typename T>
 int Stack<T>::poison_func(const int pos)
 {   
     char *arr_ptr = (char *)get_data_ptr();
-    for (int i = pos * sizeof(T); i < capacity * sizeof(T); i++)
+    for (unsigned int i = pos * sizeof(T); i < capacity * sizeof(T); i++)
         arr_ptr[i] = poison;
 
     return 0;
@@ -49,7 +49,7 @@ template <typename T>
 int Stack<T>::poison_check()
 {
     unsigned char *arr_ptr = (unsigned char *)get_data_ptr();
-    for (int pos = size * sizeof(T); pos < capacity * sizeof(T); pos++)
+    for (unsigned int pos = size * sizeof(T); pos < capacity * sizeof(T); pos++)
         if (arr_ptr[pos] != poison)
             return PSN_ERR;
 
