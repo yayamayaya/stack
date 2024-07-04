@@ -25,15 +25,10 @@
         fclose(logfile);                                                                            \
     logfile = NULL
 
-#define _DUMP_TO_LOGFILE()                                                                          \
-    if (!option && logfile)                                                                         \
-        fileName = logfile
 
 #else
 
 #define _OPEN_STACK_LOG()       do {} while (0)
-
-#define _DUMP_TO_LOGFILE()      do {} while (0)
 
 #define _STACK_LOG(...)         do {} while (0)
 
@@ -41,4 +36,11 @@
 
 #endif
 
+#define _DUMP_TO_LOGFILE()                                                                          \
+    if      (!option && logfile)                                                                    \
+        fileName = logfile;                                                                         \
+    else if (!option)                                                                               \
+        return 1
+    
+    
 #endif

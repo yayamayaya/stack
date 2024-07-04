@@ -74,7 +74,7 @@ int Stack<T>::push(const T num)
     
     *(get_data_ptr() + size) = num;
     _STACK_LOG("> value was pushed on pos: %d with pointer <%p>\n", size + 1, get_data_ptr() + size);
-    _STACK_LOG("> data : ");
+    _STACK_LOG("> data : \n");
     data_print(logfile, get_data_ptr() + size);
 
     size++;

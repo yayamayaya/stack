@@ -1,14 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(SOURCES 
-    stack_ext_funcs.hpp
-    stack_itern_funcs.hpp
-    stack_log.h
-    stack_type_funcs.cpp
-    stack.h
-)
-
-add_library(stack ${SOURCES})
+add_subdirectory(src)
 
 target_include_directories(
     stack
